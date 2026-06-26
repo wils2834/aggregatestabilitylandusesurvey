@@ -219,6 +219,5 @@ AS_meta <- as.data.frame(emmeans_AS) %>%
 write.csv(AS_meta, "AS_metadata.csv", row.names = FALSE)
 cat("Saved AS_metadata.csv\n")
 
-write.csv(AS_meta, "AS_metadata.csv", row.names = FALSE)
-cat("Saved AS_metadata.csv\n")
+
 
