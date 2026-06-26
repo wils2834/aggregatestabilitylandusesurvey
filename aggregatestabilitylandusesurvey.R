@@ -103,10 +103,9 @@ emmeans_all <- map_dfr(fraction_levels, function(frac) {
 
 # ---- Label positions (Tukey letters from > 2 mm model) ------------------
 label_pos <- emmeans_all %>%
-  group_by(Type) %>%
-  summarise(y_pos = sum(emmean), .groups = "drop") %>%
-  left_join(cld_AS %>% select(Type, .group), by = "Type")
-
+  dplyr::group_by(Type) %>%
+  dplyr::summarise(y_pos = sum(emmean), .groups = "drop") %>%
+  dplyr::left_join(cld_AS %>% dplyr::select(Type, .group), by = "Type")
 # ---- Shared theme -------------------------------------------------------
 fill_scale <- scale_fill_brewer(palette = "Reds", name = "Soil Fraction",
                                 labels = fraction_labels)
@@ -141,31 +140,26 @@ ggplot() +
        x = NULL, y = "Aggregates > 2 mm (%)") +
   theme_agg
 
-# ---- Plot 2: Stacked bar — absolute emmeans -----------------------------
-ggplot(emmeans_all, aes(x = Type, y = emmean, fill = Fraction)) +
-  geom_bar(stat = "identity", position = "stack", color = "black") +
-  geom_text(data = label_pos,
-            aes(x = Type, y = y_pos + 3, label = .group),
-            inherit.aes = FALSE, size = 8, fontface = "bold") +
-  scale_x_discrete(labels = setNames(type_labels, type_levels)) +
-  fill_scale +
-  labs(title = "Water Stable Aggregates by Management",
-       x = NULL, y = "Estimated Marginal Mean (%)") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 13,
-                                   face = "bold", color = "black"))
-
 # ---- Plot 3: Stacked bar — proportional (100%) --------------------------
 ggplot(emmeans_all, aes(x = Type, y = emmean, fill = Fraction)) +
   geom_bar(stat = "identity", position = "fill", color = "black") +
   scale_x_discrete(labels = setNames(type_labels, type_levels)) +
   scale_y_continuous(labels = scales::percent_format()) +
   fill_scale +
-  labs(title = "Water Stable Aggregates by Management (Proportional)",
-       x = NULL, y = "Proportion") +
+  labs(title = "Water Stable Aggregates by Management",
+       x = NULL, y = "Percent Stable Aggregates") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 13,
-                                   face = "bold", color = "black"))
+  theme(
+    axis.text.x  = element_text(angle = 45, hjust = 1, size = 13,
+                                face = "bold", color = "black"),
+    axis.text.y  = element_text(size = 13, face = "bold", color = "black"),
+    axis.title.y = element_text(size = 16, face = "bold", color = "black"),
+    legend.text  = element_text(size = 12, face = "bold", color = "black"),
+    legend.title = element_text(size = 13, face = "bold", color = "black"),
+    plot.title   = element_text(size = 18, face = "bold", hjust = 0.5,
+                                color = "black"),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 1.5)
+  )
 
 # ---- Plot 4: Stacked bar faceted by county ------------------------------
 emmeans_county <- map_dfr(fraction_levels, function(frac) {
@@ -186,15 +180,21 @@ ggplot(emmeans_county, aes(x = Type, y = emmean, fill = Fraction)) +
   scale_x_discrete(labels = setNames(type_labels, type_levels)) +
   fill_scale +
   labs(title = "Water Stable Aggregates by Management and County",
-       x = NULL, y = "Estimated Marginal Mean (%)") +
+       x = NULL, y = "Percent Stable Aggregates (%)") +
   theme_minimal() +
   theme(
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 13,
-                               face = "bold", color = "black"),
-    strip.text  = element_text(size = 14, face = "bold", color = "black")
-  )
+    axis.text.x  = element_text(angle = 45, hjust = 1, size = 13,
+                                face = "bold", color = "black"),
+    axis.text.y  = element_text(size = 13, face = "bold", color = "black"),
+    axis.title.y = element_text(size = 16, face = "bold", color = "black"),
+    legend.text  = element_text(size = 12, face = "bold", color = "black"),
+    legend.title = element_text(size = 13, face = "bold", color = "black"),
+    plot.title   = element_text(size = 18, face = "bold", hjust = 0.5,
+                                color = "black"),
+    strip.text = element_text(size = 14, face = "bold", color = "black"))
 
 # ---- Metadata export ----------------------------------------------------
+print(pairs_AS)
 anova_AS <- anova(final_AS)
 
 anova_AS <- anova(final_AS)
@@ -214,11 +214,10 @@ AS_meta <- as.data.frame(emmeans_AS) %>%
     LMM_p         = signif(anova_AS$`Pr(>F)`[1], 3)
   ) %>%
   dplyr::select(Metric, Scale, Shapiro_raw_p, Shapiro_log_p,
-                LMM_F, LMM_p, Type, Mean, CLD)
+                LMM_F, LMM_p, Type, Mean, SE, CLD)
 
 write.csv(AS_meta, "AS_metadata.csv", row.names = FALSE)
 cat("Saved AS_metadata.csv\n")
 
-write.csv(AS_meta, "AS_metadata.csv", row.names = FALSE)
-cat("Saved AS_metadata.csv\n")
+
 
