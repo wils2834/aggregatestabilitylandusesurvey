@@ -1,0 +1,6 @@
+"Metric","Scale","Shapiro_raw_p","Shapiro_log_p","LMM_F","LMM_p","Type","Mean","CLD"
+"Aggregate_Stability","raw",1.77e-06,2.55e-10,6.367,0.00103,"Conventional",66.0065992872215,"a"
+"Aggregate_Stability","raw",1.77e-06,2.55e-10,6.367,0.00103,"Soil_Health",78.8166466616667,"ab"
+"Aggregate_Stability","raw",1.77e-06,2.55e-10,6.367,0.00103,"Rotational_Grazing",95.1690352199292,"b"
+"Aggregate_Stability","raw",1.77e-06,2.55e-10,6.367,0.00103,"New_CRP",89.0417595322222,"b"
+"Aggregate_Stability","raw",1.77e-06,2.55e-10,6.367,0.00103,"Old_CRP",91.8688732533333,"b"
