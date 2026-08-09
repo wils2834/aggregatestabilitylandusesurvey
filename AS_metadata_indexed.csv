@@ -1,0 +1,2 @@
+"Metric","Model","Scale","Shapiro_raw_p","Shapiro_log_p","Fixed_Estimate","LMM_F","LMM_p","R2_marginal"
+"Aggregate_Stability","indexed (soil_health_score continuous)","raw",6.45e-06,7.86e-10,10.9556,27.078,1.7e-05,0.354
