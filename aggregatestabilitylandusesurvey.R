@@ -271,11 +271,15 @@ AS_meta <- as.data.frame(emmeans_AS) %>%
 write.csv(AS_meta, "AS_metadata.csv", row.names = FALSE)
 cat("Saved AS_metadata.csv\n")
 
+<<<<<<< HEAD
 # ---- Supplemental table
 all_scored <- read.csv(
   "C:\\Users\\swils\\Downloads\\01 Projects\\2024 CRP\\Landusesurveygithub\\managementoflandusesurvey2024\\soil_health_scores_2024_all_types.csv",
   stringsAsFactors = FALSE
 )
+=======
+
+>>>>>>> 42e5dca2a0ed57e7ffff6b441029af5d57570174
 
 all_scored <- all_scored %>%
   mutate(
